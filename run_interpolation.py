@@ -11,6 +11,8 @@ velo_x = 2
 velo_y = 2
 
 scaler_field_time_series = [scaler_field.copy()]
+source_sink_term = CreateFields.create_source_sink_field(100, (50, 50), radius=2, strength=5.0)
+
 dt = 0.1
 
 for i in range(100):
@@ -20,7 +22,7 @@ for i in range(100):
     advection_term = Calculate.calculate_divergence(flux_field_x, flux_field_y) * (-1)
     divergence_term = Calculate.calculate_divergence(scaler_field_gradient_x, scaler_field_gradient_y)
 
-    rate = advection_term + divergence_term
+    rate = advection_term + divergence_term + source_sink_term
     scaler_field = scaler_field + (rate * dt)
     scaler_field_time_series.append(scaler_field.copy())
 
