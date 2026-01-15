@@ -2,13 +2,23 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class CreateFields():
-    def create_scaler_field(array_size, center_size):
-        arr = np.zeros((array_size, array_size), dtype=int)
+    def create_scaler_field(array_size, center_size, center_value=0):
+        """Create a square scalar field with an optional high-value center block."""
+        if array_size <= 0:
+            raise ValueError("array_size must be positive")
+        if center_size < 0:
+            raise ValueError("center_size cannot be negative")
 
-        start_index = (array_size - center_size) // 2  # (100 - 10) / 2 = 45
-        end_index = start_index + center_size        # 45 + 10 = 55
+        arr = np.zeros((array_size, array_size), dtype=float)
 
-        arr[start_index:end_index, start_index:end_index] = 10
+        if center_size > 0 and center_value is not None:
+            start_index = (array_size - center_size) // 2
+            end_index = start_index + center_size
+
+            start_index = max(0, start_index)
+            end_index = min(array_size, end_index)
+
+            arr[start_index:end_index, start_index:end_index] = center_value
 
         return arr
     
@@ -19,17 +29,34 @@ class CreateFields():
         return vector_field_x, vector_field_y
     
     def create_source_sink_field(array_size, center_point, radius, strength):
-        source_sink_field = np.zeros((array_size, array_size))
+        # x = np.arange(0, array_size)
+        # y = np.arange(0, array_size)
+        # X, Y = np.meshgrid(x, y)
         
-        row, col = center_point
+        # # Mapping: center_point is (row, col) -> (y, x)
+        # cy, cx = center_point
+        
+        # # Use radius as the standard deviation (sigma) for the Gaussian
+        # sigma = radius if radius > 0 else 1e-5
+        
+        # # Gaussian distribution
+        # dist_sq = (X - cx)**2 + (Y - cy)**2
+        # source_sink_field = strength * np.exp(-dist_sq / (2 * sigma**2))
+        
+        # return source_sink_field
     
-        # S[row, col] = strength 
+        x = np.arange(0, array_size)
+        y = np.arange(0, array_size)
+        X, Y = np.meshgrid(x, y)
         
-        r_start = max(0, row - radius)
-        r_end = min(array_size, row + radius)
-        c_start = max(0, col - radius)
-        c_end = min(array_size, col + radius)
+        # Mapping: center_point is (row, col) -> (y, x)
+        cy, cx = center_point
         
-        source_sink_field[r_start:r_end, c_start:c_end] = strength
+        # Use radius as the standard deviation (sigma) for the Gaussian
+        sigma = radius if radius > 0 else 1e-5
+        
+        # Gaussian distribution
+        dist_sq = (X - cx)**2 + (Y - cy)**2
+        source_sink_field = strength * np.exp(-dist_sq / (2 * sigma**2))
         
         return source_sink_field
