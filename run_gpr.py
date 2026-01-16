@@ -87,6 +87,8 @@ PlotFields.plot_sampled_vectors(x_coords, y_coords, y_train_gx, y_train_gy)
 print("Optimizing hyperparameters...")
 params = GPRModel.optimize_hyperparams(x_train, y_train_gx)
 
+print(params)
+
 # Predict the full gradient field components
 print("Predicting full field...")
 x_test = last_field # Passing the full field grid

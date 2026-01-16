@@ -21,19 +21,21 @@ class PlotFields():
         Fy_plot = field_y[::skip, ::skip]
 
         plt.figure(figsize=(8, 8))
-        plt.quiver(X_plot, Y_plot, Fx_plot, Fy_plot, 
+        plt.quiver(X_plot, Y_plot, Fx_plot, -Fy_plot, 
            scale=scale,  
            color='blue', 
            headwidth=5)
         plt.title(title)
+        plt.gca().invert_yaxis()
         plt.show()
 
-    def plot_sampled_vectors(x_coords, y_coords, gx, gy, title="Sampled Vectors"):
+    def plot_sampled_vectors(x_coords, y_coords, gx, gy, title="Sampled Vectors", scale=100):
         plt.figure(figsize=(8, 8))
-        plt.quiver(x_coords, y_coords, gx, gy, scale=100, color='red', headwidth=5)
+        plt.quiver(x_coords, y_coords, gx, -gy, scale=scale, color='red', headwidth=5)
         plt.title(title)
         plt.xlabel("X")
         plt.ylabel("Y")
+        plt.gca().invert_yaxis()
         plt.show()
 
     def compare_vector_fields(truth_x, truth_y, pred_x, pred_y, scale=100):
@@ -41,21 +43,23 @@ class PlotFields():
         y = np.arange(0, len(truth_x))
         X, Y = np.meshgrid(x, y)
 
-        skip = 2 # Increased skip for side-by-side clarity
+        skip = 3 # Increased skip for side-by-side clarity
         X_plot = X[::skip, ::skip]
         Y_plot = Y[::skip, ::skip]
 
         fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(16, 8))
 
         # Truth
-        ax1.quiver(X_plot, Y_plot, truth_x[::skip, ::skip], truth_y[::skip, ::skip], 
+        ax1.quiver(X_plot, Y_plot, truth_x[::skip, ::skip], -truth_y[::skip, ::skip], 
                    scale=scale, color='blue', headwidth=5)
         ax1.set_title("Ground Truth Gradient")
+        ax1.invert_yaxis()
         
         # Prediction
-        ax2.quiver(X_plot, Y_plot, pred_x[::skip, ::skip], pred_y[::skip, ::skip], 
+        ax2.quiver(X_plot, Y_plot, pred_x[::skip, ::skip], -pred_y[::skip, ::skip], 
                    scale=scale, color='green', headwidth=5)
         ax2.set_title("GPR Predicted Gradient")
+        ax2.invert_yaxis()
 
         plt.show()
 

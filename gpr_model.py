@@ -6,8 +6,8 @@ class GPRModel():
     def calculate_covar_matrix(sigma_linear, sigma_matern, lengthscale, x1, x2):
         # x1 = GPRModel.convert_to_vector(x1)
         # x2 = GPRModel.convert_to_vector(x2)
-        print(f'x1 shape: {x1}')
-        print(f'x2 shape: {x2}')
+        # print(f'x1 shape: {x1}')
+        # print(f'x2 shape: {x2}')
 
         linear_term = np.dot(x1, x2.T) + (sigma_linear ** 2)
 
