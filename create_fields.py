@@ -2,24 +2,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class CreateFields():
-    def create_scaler_field(array_size, center_size, center_value=0):
-        """Create a square scalar field with an optional high-value center block."""
-        if array_size <= 0:
-            raise ValueError("array_size must be positive")
-        if center_size < 0:
-            raise ValueError("center_size cannot be negative")
-
-        arr = np.zeros((array_size, array_size), dtype=float)
-
-        if center_size > 0 and center_value is not None:
-            start_index = (array_size - center_size) // 2
-            end_index = start_index + center_size
-
-            start_index = max(0, start_index)
-            end_index = min(array_size, end_index)
-
-            arr[start_index:end_index, start_index:end_index] = center_value
-
+    def create_scaler_field(array_size, value=30):
+        arr = np.full((array_size, array_size), value, dtype=float)
         return arr
     
     def create_flux_field(scaler_field, x_velo, y_velo):
