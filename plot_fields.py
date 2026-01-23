@@ -29,7 +29,7 @@ class PlotFields():
         plt.gca().invert_yaxis()
         plt.show()
 
-    def plot_sampled_vectors(field, x_coords, y_coords, gx, gy, title="Sampled Vectors", scale=100):
+    def plot_sampled_vectors(field, x_coords, y_coords, gx, gy, title="Sampled Points", scale=100):
         plt.figure(figsize=(8, 8))
         
         heatmap = plt.imshow(field, cmap='viridis', interpolation='nearest', origin='lower')
