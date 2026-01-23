@@ -35,7 +35,7 @@ class PlotFields():
         heatmap = plt.imshow(field, cmap='viridis', interpolation='nearest', origin='lower')
         plt.colorbar(heatmap, fraction=0.046, pad=0.04, label='Value')
     
-        plt.quiver(x_coords, y_coords, gx * 500, gy * 500, 
+        plt.quiver(x_coords, y_coords, gx * 500, -gy * 500, 
                    scale=scale, color='red', headwidth=5, label='Gradients')        
         plt.title(title)
         plt.xlabel("X")
@@ -43,6 +43,7 @@ class PlotFields():
         plt.xlim(0, field.shape[1])
         plt.ylim(0, field.shape[0])
         plt.legend()
+        plt.gca().invert_yaxis()
         plt.show()
 
     def compare_vector_fields(truth_x, truth_y, grad_pred, title1="Ground Truth", title2="GPR Prediction", scale=100):
